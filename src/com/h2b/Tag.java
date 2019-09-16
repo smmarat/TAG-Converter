@@ -140,6 +140,7 @@ public class Tag {
             if (inTag) {
                 String closeStr = "[/" + t.getName() + "]";
                 int end = bb.indexOf(closeStr, i);
+                if (end < 0) continue; // Ignore unclosed tags
                 String body = bb.substring(i, end);
                 if (body.contains("[" + t.getName())) {
                     end = bb.lastIndexOf(closeStr, i);
@@ -278,6 +279,7 @@ public class Tag {
                 String val = getHtmlAttrValue(attrStr, "color");
                 attrStr = "=\"" + val + "\"";
             }
+            else attrStr = "";
         }
         if (attrStr.indexOf(" ") > 1 || attrStr.contains(";")) attrStr = "";
         return toString("[", "]");
