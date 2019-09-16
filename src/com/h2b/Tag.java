@@ -95,6 +95,11 @@ public class Tag {
             if (attrBuff != null) {
                 if ('>' == c) {
                     t.setAttrStr(attrBuff.toString());
+                    if ("img".equalsIgnoreCase(t.getName()) && (bb.indexOf("</img>", i) < 0)) {
+                        attrBuff = null;
+                        parent.addChild(t);
+                        continue;
+                    }
                     attrBuff = null;
                     inTag = true;
                 }
@@ -204,6 +209,10 @@ public class Tag {
             name = "a";
             attrStr = " href=\"" + val + "\"";
         }
+        if (name.equalsIgnoreCase("img")) {
+            attrStr = "src=\"" + content + "\"";
+            content = "";
+        }
         return toString("<", ">");
     }
 
@@ -238,6 +247,10 @@ public class Tag {
             attrStr = attrStr.replace(" href=\"", "=");
             attrStr = attrStr.replace("\"", "");
             name = "url";
+        }
+        if (name.equalsIgnoreCase("img") && attrStr.contains("src")) {
+            content = getHtmlAttrValue(attrStr, "src");
+            attrStr = "";
         }
         if (name.equalsIgnoreCase("blockquote")) name = "quote";
         if (name.equalsIgnoreCase("pre")) name = "code";
@@ -279,7 +292,10 @@ public class Tag {
                 String val = getHtmlAttrValue(attrStr, "color");
                 attrStr = "=\"" + val + "\"";
             }
-            else attrStr = "";
+            else {
+                attrStr = "";
+                name = "span";
+            }
         }
         if (attrStr.indexOf(" ") > 1 || attrStr.contains(";")) attrStr = "";
         return toString("[", "]");
