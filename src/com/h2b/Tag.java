@@ -150,11 +150,11 @@ public class Tag {
             char c = chars[i];
             if (inTag) {
                 String closeStr = "[/" + t.getName() + "]";
-                int end = bb.lastIndexOf(closeStr, i);
+                int end = bb.indexOf(closeStr, i);
                 if (end < 0) continue; // Ignore unclosed tags
                 String body = bb.substring(i, end);
                 if (body.contains("[" + t.getName())) {
-                    end = bb.lastIndexOf(closeStr, i);
+                    end = bb.lastIndexOf(closeStr);
                     if (end < 0) continue;
                     body = bb.substring(i, end);
                 }
