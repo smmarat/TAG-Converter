@@ -216,6 +216,10 @@ public class Tag {
             name = "a";
             attrStr = " href=\"" + val + "\"";
         }
+        if (name.equalsIgnoreCase("ol") && attrStr.length() > 0) {
+            String val = getBBCodeAttrValue(attrStr);
+            attrStr = "type=\"" + val + "\"";
+        }
         if (name.equalsIgnoreCase("img")) {
             attrStr = "src=\"" + content + "\"";
             content = "";
@@ -234,6 +238,10 @@ public class Tag {
         if ((name + attrStr).equalsIgnoreCase("span style=\"font-weight:bold;\"")) {
             name = "b";
             attrStr = "";
+        }
+        if ((name + attrStr).equalsIgnoreCase("ol type=\"a\"")) {
+            name = "ol";
+            attrStr = "=a";
         }
         if (name.equalsIgnoreCase("em")) name = "i";
         if ((name + attrStr).equalsIgnoreCase("span style=\"font-style:italic;\"")) {
